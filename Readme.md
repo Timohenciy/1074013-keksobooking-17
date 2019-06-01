@@ -1,7 +1,7 @@
-# Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
+﻿# Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Тимур Гарипов](https://up.htmlacademy.ru/javascript/17/user/1074013).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Батманов](https://htmlacademy.ru/profile/id10964).
 
 ---
 
