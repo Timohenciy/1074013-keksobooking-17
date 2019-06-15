@@ -19,30 +19,29 @@ var offerType = [
 ];
 
 var getAvatar = function (quantity) {
-  var avatar = 'img/avatars/user0' + quantity + '.png';
-  return avatar;
+  return 'img/avatars/user0' + quantity + '.png';
 };
 
 var getRandomValue = function (inputValue) {
-  var outputValue = Math.round(Math.random() * inputValue);
-  return outputValue;
+  return Math.round(Math.random() * inputValue);
 };
 
 var getRandomHeight = function (min, max) {
-  var outputValue = Math.round(min + Math.random() * (max - min));
-  return outputValue;
+  return Math.round(min + Math.random() * (max - min));
 };
 
 var getAnnouncement = function (offer, x, yMin, yMax) {
   var NUMBER_OF_ANNOUNCEMENTS = 8;
   var announcements = [];
 
-  for (var i = 0; i < NUMBER_OF_ANNOUNCEMENTS; i++) {
+  for (var i = 1; i < NUMBER_OF_ANNOUNCEMENTS + 1; i++) {
     var announcement = {};
+
     announcement.author = getAvatar(i);
     announcement.offer = offer[getRandomValue(offer.length - 1)];
     announcement.locationX = getRandomValue(x);
     announcement.locationY = getRandomHeight(yMin, yMax);
+
     announcements.push(announcement);
   }
 
@@ -54,9 +53,13 @@ var createTemplate = function (array) {
 
   for (var i = 0; i < array.length; i++) {
     var fragment = pinTemplate.cloneNode(true);
+    var fragmentImage = fragment.querySelector('img');
+
     fragment.style.left = (array[i].locationX - (fragment.clientWidth / 2)) + 'px';
     fragment.style.top = (array[i].locationY - fragment.clientHeight) + 'px';
-    fragment.children[0].src = array[i].author;
+    fragmentImage.src = array[i].author;
+    fragmentImage.alt = 'Заголовок объявления';
+
     pinsTemplates.appendChild(fragment);
   }
 
