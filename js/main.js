@@ -1,7 +1,6 @@
 'use strict';
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
@@ -66,4 +65,42 @@ var createTemplate = function (array) {
   mapPins.appendChild(pinsTemplates);
 };
 
-createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
+/* createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX)); */
+
+var submitFormSection = document.querySelector('.notice');
+var submitForm = submitFormSection.querySelector('.ad-form');
+var submitFormFields = submitFormSection.querySelectorAll('fieldset');
+
+var mainPin = mapPins.querySelector('.map__pin--main');
+var mainPinImage = mainPin.querySelector('img');
+
+var mainPinPositionX = mainPin.style.left.split('').splice(0, 3).join('');
+var mainPinPositionY = mainPin.style.top.split('').splice(0, 3).join('');
+
+var addressForm = submitFormSection.querySelector('#address');
+addressForm.value = mainPinPositionX + ', ' + mainPinPositionY;
+
+mainPin.addEventListener('click', function () {
+  onPinClickRemoveAttribute(submitFormFields);
+  submitForm.classList.remove('ad-form--disabled');
+});
+
+mainPin.addEventListener('mouseup', function () {
+  onPinMouseUp();
+});
+
+var onPinMouseUp = function () {
+  addressForm.value = (+mainPinPositionX + (+mainPinImage.width / 2)) + ', ' + (+mainPinPositionY - (+mainPinImage.height));
+};
+
+var onPinClickRemoveAttribute = function (collection) {
+  for (var i = 0; i < collection.length; i++) {
+    collection[i].removeAttribute('disabled');
+  }
+
+  map.classList.remove('map--faded');
+};
+
+for (var i = 0; i < submitFormFields.length; i++) {
+  submitFormFields[i].setAttribute('disabled', '');
+}
