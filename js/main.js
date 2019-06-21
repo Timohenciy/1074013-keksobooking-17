@@ -2,7 +2,7 @@
 
 var map = document.querySelector('.map');
 
-var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+/* var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin'); */
 
 var mapPins = document.querySelector('.map__pins');
 
@@ -19,7 +19,7 @@ var mainPinHeight = mainPin.offsetHeight;
 var mainPinPositionX = mainPin.offsetLeft;
 var mainPinPositionY = mainPin.offsetTop;
 
-var MAP_WIDTH = map.clientWidth;
+/* var MAP_WIDTH = map.clientWidth;
 var MAP_HEIGHT_MIN = 130;
 var MAP_HEIGHT_MAX = 630;
 
@@ -28,7 +28,7 @@ var offerType = [
   'flat',
   'bungalo',
   'house'
-];
+]; */
 
 var setAttributeDisable = function (collection, attribute) {
   for (var i = 0; i < collection.length; i++) {
@@ -62,7 +62,7 @@ var onClickActivatePage = function () {
   submitForm.classList.remove('ad-form--disabled');
 };
 
-var getAvatar = function (quantity) {
+/* var getAvatar = function (quantity) {
   return 'img/avatars/user0' + quantity + '.png';
 };
 
@@ -72,9 +72,9 @@ var getRandomValue = function (inputValue) {
 
 var getRandomHeight = function (min, max) {
   return Math.round(min + Math.random() * (max - min));
-};
+}; */
 
-var getAnnouncement = function (offer, x, yMin, yMax) {
+/* var getAnnouncement = function (offer, x, yMin, yMax) {
   var NUMBER_OF_ANNOUNCEMENTS = 8;
   var announcements = [];
 
@@ -90,9 +90,9 @@ var getAnnouncement = function (offer, x, yMin, yMax) {
   }
 
   return announcements;
-};
+}; */
 
-var createTemplate = function (array) {
+/* var createTemplate = function (array) {
   var pinsTemplates = document.createDocumentFragment();
 
   for (var i = 0; i < array.length; i++) {
@@ -108,7 +108,7 @@ var createTemplate = function (array) {
   }
 
   mapPins.appendChild(pinsTemplates);
-};
+}; */
 
 mainPin.addEventListener('click', function () {
   onClickActivatePage(submitFormFields, 'disabled');
