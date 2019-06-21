@@ -6,6 +6,19 @@ var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pi
 
 var mapPins = document.querySelector('.map__pins');
 
+var submitFormSection = document.querySelector('.notice');
+var submitForm = submitFormSection.querySelector('.ad-form');
+var submitFormFields = submitFormSection.querySelectorAll('fieldset');
+
+var addressInput = submitFormSection.querySelector('#address');
+
+var mainPin = mapPins.querySelector('.map__pin--main');
+var mainPinWidth = mainPin.offsetWidth;
+var mainPinHeight = mainPin.offsetHeight;
+
+var mainPinPositionX = mainPin.offsetLeft;
+var mainPinPositionY = mainPin.offsetTop;
+
 var MAP_WIDTH = map.clientWidth;
 var MAP_HEIGHT_MIN = 130;
 var MAP_HEIGHT_MAX = 630;
@@ -16,6 +29,38 @@ var offerType = [
   'bungalo',
   'house'
 ];
+
+var setAttributeDisable = function (collection, attribute) {
+  for (var i = 0; i < collection.length; i++) {
+    collection[i].setAttribute(attribute);
+  }
+};
+
+var removeAttributeDisable = function (collection, attribute) {
+  for (var i = 0; i < collection.length; i++) {
+    collection[i].removeAttribute(attribute);
+  }
+};
+
+var setOpeningCoordinates = function (pinX, pinY) {
+  addressInput.value = pinX + ', ' + pinY;
+  return addressInput.value;
+};
+
+var getPinCoordinates = function (pinX, pinY, pinWidth, pinHeight) {
+  addressInput.value = (pinX + Math.round(pinWidth / 2)) + ', ' + (pinY - Math.round(pinHeight / 2));
+  return addressInput.value;
+};
+
+var onMouseUpGetCoordinates = function () {
+  getPinCoordinates(mainPinPositionX, mainPinPositionY, mainPinWidth, mainPinHeight);
+};
+
+var onClickActivatePage = function () {
+  removeAttributeDisable(submitFormFields, 'disabled');
+  map.classList.remove('map--faded');
+  submitForm.classList.remove('ad-form--disabled');
+};
 
 var getAvatar = function (quantity) {
   return 'img/avatars/user0' + quantity + '.png';
@@ -65,42 +110,17 @@ var createTemplate = function (array) {
   mapPins.appendChild(pinsTemplates);
 };
 
-/* createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX)); */
-
-var submitFormSection = document.querySelector('.notice');
-var submitForm = submitFormSection.querySelector('.ad-form');
-var submitFormFields = submitFormSection.querySelectorAll('fieldset');
-
-var mainPin = mapPins.querySelector('.map__pin--main');
-var mainPinImage = mainPin.querySelector('img');
-
-var mainPinPositionX = mainPin.style.left.split('').splice(0, 3).join('');
-var mainPinPositionY = mainPin.style.top.split('').splice(0, 3).join('');
-
-var addressForm = submitFormSection.querySelector('#address');
-addressForm.value = mainPinPositionX + ', ' + mainPinPositionY;
-
 mainPin.addEventListener('click', function () {
-  onPinClickRemoveAttribute(submitFormFields);
-  submitForm.classList.remove('ad-form--disabled');
+  onClickActivatePage(submitFormFields, 'disabled');
 });
 
 mainPin.addEventListener('mouseup', function () {
-  onPinMouseUp();
+  onMouseUpGetCoordinates();
 });
 
-var onPinMouseUp = function () {
-  addressForm.value = (+mainPinPositionX + (+mainPinImage.width / 2)) + ', ' + (+mainPinPositionY - (+mainPinImage.height));
-};
+/* createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX)); */
 
-var onPinClickRemoveAttribute = function (collection) {
-  for (var i = 0; i < collection.length; i++) {
-    collection[i].removeAttribute('disabled');
-  }
+setOpeningCoordinates(mainPinPositionX, mainPinPositionY);
 
-  map.classList.remove('map--faded');
-};
+setAttributeDisable(submitFormFields, 'disabled');
 
-for (var i = 0; i < submitFormFields.length; i++) {
-  submitFormFields[i].setAttribute('disabled', '');
-}
