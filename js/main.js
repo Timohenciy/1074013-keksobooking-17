@@ -53,6 +53,7 @@ var onMouseUpGetCoordinates = function (pinX, pinY, pinWidth, pinHeight) {
 var onClickActivatePage = function () {
   disableStatusSwitching(submitFormFields, true);
   disableStatusSwitching(mapFilters, true);
+  createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
   map.classList.remove('map--faded');
   submitForm.classList.remove('ad-form--disabled');
 };
@@ -112,8 +113,6 @@ mainPin.addEventListener('click', function () {
 mainPin.addEventListener('mouseup', function () {
   onMouseUpGetCoordinates(mainPinPositionX, mainPinPositionY, mainPinWidth, mainPinHeight);
 });
-
-createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
 
 startingInputCoordinates(mainPinPositionX, mainPinPositionY);
 
