@@ -2,27 +2,14 @@
 
 (function () {
   var form = document.querySelector('.ad-form');
-  form.setAttribute('action', 'https://js.dump.academy/keksobooking');
-
-  var formTitle = form.querySelector('#title');
-  formTitle.setAttribute('minlength', '30');
-  formTitle.setAttribute('maxlength', '100');
-  formTitle.setAttribute('required', '');
 
   var priceForNight = form.querySelector('#price');
-  priceForNight.setAttribute('max', '1000000');
-  priceForNight.setAttribute('min', '');
-  priceForNight.setAttribute('required', '');
-  priceForNight.placeholder = '1000';
 
   var houseType = form.querySelector('#type');
   var bungalo = houseType.querySelector('[value = "bungalo"]');
   var flat = houseType.querySelector('[value = "flat"]');
   var house = houseType.querySelector('[value = "house"]');
   var palace = houseType.querySelector('[value = "palace"]');
-
-  var addressField = form.querySelector('#address');
-  addressField.setAttribute('disabled', '');
 
   var timeIn = form.querySelector('#timein');
   var timeInTwelve = timeIn.querySelector('[value = "12:00"]');
