@@ -1,11 +1,25 @@
 'use strict';
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 var mapPins = document.querySelector('.map__pins');
+
+var mapFilters = map.querySelectorAll('.map__filter');
+
+var submitFormSection = document.querySelector('.notice');
+var submitForm = submitFormSection.querySelector('.ad-form');
+var submitFormFields = submitFormSection.querySelectorAll('fieldset');
+
+var addressInput = submitFormSection.querySelector('#address');
+
+var mainPin = mapPins.querySelector('.map__pin--main');
+var mainPinWidth = mainPin.offsetWidth;
+var mainPinHeight = mainPin.offsetHeight;
+
+var mainPinPositionX = mainPin.offsetLeft;
+var mainPinPositionY = mainPin.offsetTop;
 
 var MAP_WIDTH = map.clientWidth;
 var MAP_HEIGHT_MIN = 130;
@@ -17,6 +31,29 @@ var offerType = [
   'bungalo',
   'house'
 ];
+
+var disableStatusSwitching = function (collection, isDisabled) {
+  for (var i = 0; i < collection.length; i++) {
+      collection[i].setAttribute('disabled', isDisabled);
+    }
+
+};
+
+var startingInputCoordinates = function (pinX, pinY) {
+  addressInput.value = pinX + ', ' + pinY;
+};
+
+var onMouseUpGetCoordinates = function (pinX, pinY, pinWidth, pinHeight) {
+  addressInput.value = (pinX + Math.round(pinWidth / 2)) + ', ' + (pinY - Math.round(pinHeight / 2));
+};
+
+var onClickActivatePage = function () {
+  disableStatusSwitching(submitFormFields, true);
+  disableStatusSwitching(mapFilters, true);
+  createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
+  map.classList.remove('map--faded');
+  submitForm.classList.remove('ad-form--disabled');
+};
 
 var getAvatar = function (quantity) {
   return 'img/avatars/user0' + quantity + '.png';
@@ -66,4 +103,16 @@ var createTemplate = function (array) {
   mapPins.appendChild(pinsTemplates);
 };
 
-createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
+mainPin.addEventListener('click', function () {
+  onClickActivatePage(submitFormFields, true);
+});
+
+mainPin.addEventListener('mouseup', function () {
+  onMouseUpGetCoordinates(mainPinPositionX, mainPinPositionY, mainPinWidth, mainPinHeight);
+});
+
+startingInputCoordinates(mainPinPositionX, mainPinPositionY);
+
+disableStatusSwitching(submitFormFields, false);
+disableStatusSwitching(mapFilters, false);
+
