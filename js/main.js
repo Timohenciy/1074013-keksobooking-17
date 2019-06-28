@@ -34,12 +34,9 @@ var offerType = [
 
 var disableStatusSwitching = function (collection, isDisabled) {
   for (var i = 0; i < collection.length; i++) {
-    if (isDisabled) {
-      collection[i].removeAttribute('disabled', '');
-    } else if (!isDisabled) {
-      collection[i].setAttribute('disabled', '');
+      collection[i].setAttribute('disabled', isDisabled);
     }
-  }
+
 };
 
 var startingInputCoordinates = function (pinX, pinY) {
