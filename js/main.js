@@ -32,9 +32,9 @@ var offerType = [
   'house'
 ];
 
-var disableStatusSwitching = function (collection) {
+var disableStatusSwitching = function (collection, isDisabled) {
   for (var i = 0; i < collection.length; i++) {
-    collection[i].removeAttribute('disabled');
+    collection[i].disabled = isDisabled;
   }
 };
 
@@ -111,3 +111,6 @@ mainPin.addEventListener('mouseup', function () {
 });
 
 startingInputCoordinates(mainPinPositionX, mainPinPositionY);
+
+disableStatusSwitching(submitFormFields, true);
+disableStatusSwitching(mapFilters, true);

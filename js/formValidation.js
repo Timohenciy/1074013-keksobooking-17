@@ -6,64 +6,34 @@
   var priceForNight = form.querySelector('#price');
 
   var houseType = form.querySelector('#type');
-  var bungalo = houseType.querySelector('[value = "bungalo"]');
-  var flat = houseType.querySelector('[value = "flat"]');
-  var house = houseType.querySelector('[value = "house"]');
-  var palace = houseType.querySelector('[value = "palace"]');
+
+  var houseTypeMap = {
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000
+  };
 
   var timeIn = form.querySelector('#timein');
-  var timeInTwelve = timeIn.querySelector('[value = "12:00"]');
-  var timeInThirteen = timeIn.querySelector('[value = "13:00"]');
-  var timeInFourteen = timeIn.querySelector('[value = "14:00"]');
 
   var timeOut = form.querySelector('#timeout');
-  var timeOutTwelve = timeOut.querySelector('[value = "12:00"]');
-  var timeOutThirteen = timeOut.querySelector('[value = "13:00"]');
-  var timeOutFourteen = timeOut.querySelector('[value = "14:00"]');
 
   var onTypeChange = function (evt) {
-    evt.preventDefault();
 
-    if (bungalo.selected) {
-      priceForNight.min = '0';
-      priceForNight.placeholder = '0';
-    } else if (flat.selected) {
-      priceForNight.min = '1000';
-      priceForNight.placeholder = '1000';
-    } else if (house.selected) {
-      priceForNight.min = '5000';
-      priceForNight.placeholder = '5000';
-    } else if (palace.selected) {
-      priceForNight.min = '10000';
-      priceForNight.placeholder = '10000';
-    }
+    priceForNight.min = houseTypeMap[evt.target.value];
+    priceForNight.placeholder = houseTypeMap[evt.target.value];
+
   };
 
-  var onTimeInChange = function (evt) {
-    evt.preventDefault();
-
-    if (timeInTwelve.selected) {
-      timeOutTwelve.selected = true;
-    } else if (timeInThirteen.selected) {
-      timeOutThirteen.selected = true;
-    } else if (timeInFourteen.selected) {
-      timeOutFourteen.selected = true;
-    }
+  var onTimeChange = function (variableField, target) {
+    variableField.selectedIndex = target.selectedIndex;
   };
 
-  var onTimeOutChange = function (evt) {
-    evt.preventDefault();
-
-    if (timeOutTwelve.selected) {
-      timeInTwelve.selected = true;
-    } else if (timeOutThirteen.selected) {
-      timeInThirteen.selected = true;
-    } else if (timeOutFourteen.selected) {
-      timeInFourteen.selected = true;
-    }
-  };
-
-  timeIn.addEventListener('change', onTimeInChange);
-  timeOut.addEventListener('change', onTimeOutChange);
+  timeIn.addEventListener('change', function (evt) {
+    onTimeChange(timeOut, evt.target);
+  });
+  timeOut.addEventListener('change', function (evt) {
+    onTimeChange(timeIn, evt.target);
+  });
   houseType.addEventListener('change', onTypeChange);
 })();
