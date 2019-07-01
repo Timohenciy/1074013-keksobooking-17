@@ -34,9 +34,8 @@ var offerType = [
 
 var disableStatusSwitching = function (collection, isDisabled) {
   for (var i = 0; i < collection.length; i++) {
-      collection[i].setAttribute('disabled', isDisabled);
-    }
-
+    collection[i].disabled = isDisabled;
+  }
 };
 
 var startingInputCoordinates = function (pinX, pinY) {
@@ -48,8 +47,8 @@ var onMouseUpGetCoordinates = function (pinX, pinY, pinWidth, pinHeight) {
 };
 
 var onClickActivatePage = function () {
-  disableStatusSwitching(submitFormFields, true);
-  disableStatusSwitching(mapFilters, true);
+  disableStatusSwitching(submitFormFields);
+  disableStatusSwitching(mapFilters);
   createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
   map.classList.remove('map--faded');
   submitForm.classList.remove('ad-form--disabled');
@@ -104,7 +103,7 @@ var createTemplate = function (array) {
 };
 
 mainPin.addEventListener('click', function () {
-  onClickActivatePage(submitFormFields, true);
+  onClickActivatePage();
 });
 
 mainPin.addEventListener('mouseup', function () {
@@ -113,6 +112,5 @@ mainPin.addEventListener('mouseup', function () {
 
 startingInputCoordinates(mainPinPositionX, mainPinPositionY);
 
-disableStatusSwitching(submitFormFields, false);
-disableStatusSwitching(mapFilters, false);
-
+disableStatusSwitching(submitFormFields, true);
+disableStatusSwitching(mapFilters, true);
