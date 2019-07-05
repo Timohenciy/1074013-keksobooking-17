@@ -48,11 +48,11 @@
     var onPinMouseUp = function (evtUp) {
       evtUp.preventDefault();
 
-      pin.removeEventListener('mousemove', onPinMouseMove);
+      document.removeEventListener('mousemove', onPinMouseMove);
     };
 
-    pin.addEventListener('mousemove', onPinMouseMove);
-    pin.addEventListener('mouseup', onPinMouseUp);
+    document.addEventListener('mousemove', onPinMouseMove);
+    document.addEventListener('mouseup', onPinMouseUp);
   };
 
   pin.addEventListener('mousedown', onPinMouseDown);

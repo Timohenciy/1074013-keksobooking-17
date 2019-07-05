@@ -20,6 +20,8 @@ var MAP_WIDTH = map.clientWidth;
 var MAP_HEIGHT_MIN = 130;
 var MAP_HEIGHT_MAX = 630;
 
+var isTemplateCreated = false;
+
 var offerType = [
   'palace',
   'flat',
@@ -37,8 +39,8 @@ var startingInputCoordinates = function (pinX, pinY) {
   addressInput.value = pinX + ', ' + pinY;
 };
 
-var onMouseActionGetCoordinates = function (pinX, pinY, pinWidth, pinHeight) {
-  addressInput.value = (pinX + Math.round(pinWidth / 2)) + ', ' + (pinY - Math.round(pinHeight));
+var onMouseActionGetCoordinates = function (pinX, pinY, pinWidth) {
+  addressInput.value = (pinX + Math.round(pinWidth / 2)) + ', ' + pinY;
 };
 
 var activatePage = function () {
@@ -98,7 +100,6 @@ var createTemplate = function (array) {
 
 var onMouseDownCreateTemplate = function (evt) {
   evt.preventDefault();
-  createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
 
   mainPin.addEventListener('mousemove', onMouseMoveActivatePage);
   mainPin.addEventListener('mouseup', onMouseUpRemoveListeners);
@@ -108,7 +109,13 @@ var onMouseMoveActivatePage = function (evt) {
   evt.preventDefault();
 
   activatePage();
-  onMouseActionGetCoordinates(mainPin.offsetLeft, mainPin.offsetTop, mainPin.offsetWidth, mainPin.offsetHeight);
+
+  if (isTemplateCreated === false) {
+    createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
+
+    isTemplateCreated = true;
+  }
+  onMouseActionGetCoordinates(mainPin.offsetLeft, mainPin.offsetTop, mainPin.offsetWidth);
 };
 
 var onMouseUpRemoveListeners = function (evt) {
