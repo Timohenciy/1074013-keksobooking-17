@@ -15,15 +15,12 @@ var submitFormFields = submitFormSection.querySelectorAll('fieldset');
 var addressInput = submitFormSection.querySelector('#address');
 
 var mainPin = mapPins.querySelector('.map__pin--main');
-var mainPinWidth = mainPin.offsetWidth;
-var mainPinHeight = mainPin.offsetHeight;
-
-var mainPinPositionX = mainPin.offsetLeft;
-var mainPinPositionY = mainPin.offsetTop;
 
 var MAP_WIDTH = map.clientWidth;
 var MAP_HEIGHT_MIN = 130;
 var MAP_HEIGHT_MAX = 630;
+
+var isTemplateCreated = false;
 
 var offerType = [
   'palace',
@@ -42,14 +39,13 @@ var startingInputCoordinates = function (pinX, pinY) {
   addressInput.value = pinX + ', ' + pinY;
 };
 
-var onMouseUpGetCoordinates = function (pinX, pinY, pinWidth, pinHeight) {
-  addressInput.value = (pinX + Math.round(pinWidth / 2)) + ', ' + (pinY - Math.round(pinHeight / 2));
+var onMouseActionGetCoordinates = function (pinX, pinY, pinWidth) {
+  addressInput.value = (pinX + Math.round(pinWidth / 2)) + ', ' + pinY;
 };
 
-var onClickActivatePage = function () {
+var activatePage = function () {
   disableStatusSwitching(submitFormFields);
   disableStatusSwitching(mapFilters);
-  createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
   map.classList.remove('map--faded');
   submitForm.classList.remove('ad-form--disabled');
 };
@@ -102,15 +98,37 @@ var createTemplate = function (array) {
   mapPins.appendChild(pinsTemplates);
 };
 
-mainPin.addEventListener('click', function () {
-  onClickActivatePage();
-});
+var onMouseDownCreateTemplate = function (evt) {
+  evt.preventDefault();
 
-mainPin.addEventListener('mouseup', function () {
-  onMouseUpGetCoordinates(mainPinPositionX, mainPinPositionY, mainPinWidth, mainPinHeight);
-});
+  mainPin.addEventListener('mousemove', onMouseMoveActivatePage);
+  mainPin.addEventListener('mouseup', onMouseUpRemoveListeners);
+};
 
-startingInputCoordinates(mainPinPositionX, mainPinPositionY);
+var onMouseMoveActivatePage = function (evt) {
+  evt.preventDefault();
+
+  activatePage();
+
+  if (isTemplateCreated === false) {
+    createTemplate(getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
+
+    isTemplateCreated = true;
+  }
+  onMouseActionGetCoordinates(mainPin.offsetLeft, mainPin.offsetTop, mainPin.offsetWidth);
+};
+
+var onMouseUpRemoveListeners = function (evt) {
+  evt.preventDefault();
+
+  onMouseActionGetCoordinates(mainPin.offsetLeft, mainPin.offsetTop, mainPin.offsetWidth, mainPin.offsetHeight);
+  mainPin.removeEventListener('mousemove', onMouseMoveActivatePage);
+  mainPin.removeEventListener('mouseup', onMouseUpRemoveListeners);
+};
+
+mainPin.addEventListener('mousedown', onMouseDownCreateTemplate);
+
+startingInputCoordinates(mainPin.offsetLeft, mainPin.offsetTop);
 
 disableStatusSwitching(submitFormFields, true);
 disableStatusSwitching(mapFilters, true);
