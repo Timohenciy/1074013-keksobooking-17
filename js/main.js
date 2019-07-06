@@ -13,19 +13,8 @@
 
   var mainPin = document.querySelector('.map__pin--main');
 
-  var MAP_WIDTH = map.clientWidth;
-  var MAP_HEIGHT_MIN = 130;
-  var MAP_HEIGHT_MAX = 630;
-
   var isTemplateCreated = false;
   var pageIsActive = false;
-
-  var offerType = [
-    'palace',
-    'flat',
-    'bungalo',
-    'house'
-  ];
 
   var disableStatusSwitching = function (collection, isDisabled) {
     for (var i = 0; i < collection.length; i++) {
@@ -65,7 +54,7 @@
     evt.preventDefault();
 
     if (isTemplateCreated === false) {
-      window.createTemplate(window.getAnnouncement(offerType, MAP_WIDTH, MAP_HEIGHT_MIN, MAP_HEIGHT_MAX));
+      window.data.load(window.createTemplate, window.errorPoup);
 
       isTemplateCreated = true;
     }
