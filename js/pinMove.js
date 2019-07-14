@@ -4,7 +4,7 @@
   var map = document.querySelector('.map');
   var pin = map.querySelector('.map__pin--main');
 
-  var onPinMouseDown = function (evtDown) {
+  var onMouseDownStartDrag = function (evtDown) {
     evtDown.preventDefault();
 
     var startingCoords = {
@@ -12,7 +12,7 @@
       y: evtDown.clientY
     };
 
-    var onPinMouseMove = function (evtMove) {
+    var onMouseMoveDragPin = function (evtMove) {
       evtMove.preventDefault();
 
       var shift = {
@@ -45,15 +45,15 @@
       pin.style.top = newCoords.y + 'px';
     };
 
-    var onPinMouseUp = function (evtUp) {
+    var onMouseUpStopDrag = function (evtUp) {
       evtUp.preventDefault();
 
-      document.removeEventListener('mousemove', onPinMouseMove);
+      document.removeEventListener('mousemove', onMouseMoveDragPin);
     };
 
-    document.addEventListener('mousemove', onPinMouseMove);
-    document.addEventListener('mouseup', onPinMouseUp);
+    document.addEventListener('mousemove', onMouseMoveDragPin);
+    document.addEventListener('mouseup', onMouseUpStopDrag);
   };
 
-  pin.addEventListener('mousedown', onPinMouseDown);
+  pin.addEventListener('mousedown', onMouseDownStartDrag);
 })();

@@ -4,7 +4,7 @@
   var main = document.querySelector('main');
   var errorWindowTemplate = document.querySelector('#error').content.querySelector('.error');
 
-  window.errorPopup = function () {
+  window.onErrorShowPopup = function () {
     var errorWindow = errorWindowTemplate.cloneNode(true);
     var errorButton = errorWindow.querySelector('.error__button');
 
