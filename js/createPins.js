@@ -4,8 +4,8 @@
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPins = document.querySelector('.map__pins');
 
-  window.createTemplate = function (array) {
-    var pinsTemplates = document.createDocumentFragment();
+  window.createPins = function (array) {
+    var pinsCollection = document.createDocumentFragment();
 
     for (var i = 0; i < array.length; i++) {
       var fragment = pinTemplate.cloneNode(true);
@@ -16,9 +16,9 @@
       fragmentImage.src = array[i].author.avatar;
       fragmentImage.alt = array[i].offer.title;
 
-      pinsTemplates.appendChild(fragment);
+      pinsCollection.appendChild(fragment);
     }
 
-    mapPins.appendChild(pinsTemplates);
+    mapPins.appendChild(pinsCollection);
   };
 })();

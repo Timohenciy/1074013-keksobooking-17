@@ -6,34 +6,34 @@
   var SUCCESS_CODE = 200;
   window.data = {
     load: function (onLoad, onError) {
-      window.xhr = new XMLHttpRequest();
-      window.xhr.responseType = 'json';
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'json';
 
-      window.xhr.addEventListener('load', function () {
-        if (window.xhr.status === SUCCESS_CODE) {
-          onLoad(window.xhr.response);
+      xhr.addEventListener('load', function () {
+        if (xhr.status === SUCCESS_CODE) {
+          onLoad(xhr.response);
         } else {
           onError();
         }
       });
 
-      window.xhr.open('GET', GET_ADDRESS);
-      window.xhr.send();
+      xhr.open('GET', GET_ADDRESS);
+      xhr.send();
     },
     save: function (data, onLoad, onError) {
-      window.xhr = new XMLHttpRequest();
-      window.xhr.responseType = 'json';
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'json';
 
-      window.xhr.addEventListener('load', function () {
-        if (window.xhr.status === SUCCESS_CODE) {
+      xhr.addEventListener('load', function () {
+        if (xhr.status === SUCCESS_CODE) {
           onLoad();
         } else {
           onError();
         }
       });
 
-      window.xhr.open('POST', POST_ADDRESS);
-      window.xhr.send(data);
+      xhr.open('POST', POST_ADDRESS);
+      xhr.send(data);
     }
   };
 })();
