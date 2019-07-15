@@ -56,7 +56,7 @@
     evt.preventDefault();
 
     if (isAnnouncementsCreated === false) {
-      window.data.load(window.onSuccesDataLoadCreatePins, window.onErrorShowPopup);
+      window.data.load(window.onSuccesRenderPins, window.onErrorShowPopup);
 
       isAnnouncementsCreated = true;
     }

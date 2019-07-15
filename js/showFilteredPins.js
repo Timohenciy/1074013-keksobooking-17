@@ -6,7 +6,7 @@
 
   var mapPins = document.querySelector('.map__pins');
 
-  window.onSuccesDataLoadCreatePins = function (data) {
+  window.onSuccesRenderPins = function (data) {
     announcementsData = data;
 
     updateAnnouncements();
@@ -17,7 +17,7 @@
       return element.offer.type === houseType.value;
     }).slice(0, 5);
 
-    window.createPins(filteredData);
+    window.renderPins(filteredData);
   };
 
   var removeOldAnnoucements = function () {
