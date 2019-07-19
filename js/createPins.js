@@ -4,19 +4,25 @@
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPins = document.querySelector('.map__pins');
 
-  window.createPins = function (array) {
+  var createPin = function (pin) {
+    var fragment = pinTemplate.cloneNode(true);
+    var fragmentImage = fragment.querySelector('img');
+
+    fragment.style.left = (pin.location.x - (fragment.clientWidth / 2)) + 'px';
+    fragment.style.top = (pin.location.y - fragment.clientHeight) + 'px';
+    fragmentImage.src = pin.author.avatar;
+    fragmentImage.alt = pin.offer.title;
+
+    return fragment;
+  };
+
+  window.createPins = function (pinsData) {
     var pinsCollection = document.createDocumentFragment();
 
-    for (var i = 0; i < array.length; i++) {
-      var fragment = pinTemplate.cloneNode(true);
-      var fragmentImage = fragment.querySelector('img');
+    for (var i = 0; i < pinsData.length; i++) {
+      var newPin = createPin(pinsData[i]);
 
-      fragment.style.left = (array[i].location.x - (fragment.clientWidth / 2)) + 'px';
-      fragment.style.top = (array[i].location.y - fragment.clientHeight) + 'px';
-      fragmentImage.src = array[i].author.avatar;
-      fragmentImage.alt = array[i].offer.title;
-
-      pinsCollection.appendChild(fragment);
+      pinsCollection.appendChild(newPin);
     }
 
     mapPins.appendChild(pinsCollection);

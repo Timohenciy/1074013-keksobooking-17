@@ -17,6 +17,8 @@
       return element.offer.type === houseType.value;
     }).slice(0, 5);
 
+    window.createAnnouncement(filteredData);
+
     window.createPins(filteredData);
   };
 
