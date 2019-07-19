@@ -28,7 +28,7 @@
 
   Announcement.prototype.setPhotos = function (photosURL) {
     var photosCollection = document.createDocumentFragment();
-    this.popupPhotos.innerHTML = '';
+    this.Element.photos.innerHTML = '';
 
     for (var i = 0; i < photosURL.length; i++) {
       var newImage = announcementPopupTemplate.querySelector('.popup__photo').cloneNode(true);
@@ -39,7 +39,7 @@
   };
 
   Announcement.prototype.setFeatures = function (currentFeatures) {
-    this.popupFeatures.innerHTML = '';
+    this.Element.features.innerHTML = '';
     var featuresCollection = document.createDocumentFragment();
 
     currentFeatures.forEach(function (element) {
@@ -56,20 +56,30 @@
   Announcement.prototype.createNewAd = function () {
     this.newElement = announcementPopupTemplate.cloneNode(true);
 
-    this.popupPhotos = this.newElement.querySelector('.popup__photos');
-    this.popupFeatures = this.newElement.querySelector('.popup__features');
-    this.popupWifi = this.popupFeatures.querySelector('.popup__feature--wifi');
+    this.Element = {
+      title: this.newElement.querySelector('.popup__title'),
+      address: this.newElement.querySelector('.popup__text--address'),
+      price: this.newElement.querySelector('.popup__text--price'),
+      houseType: this.newElement.querySelector('.popup__type'),
+      guestsCapacity: this.newElement.querySelector('.popup__text--capacity'),
+      checkingTime: this.newElement.querySelector('.popup__text--time'),
+      features: this.newElement.querySelector('.popup__features'),
+      description: this.newElement.querySelector('.popup__description'),
+      photos: this.newElement.querySelector('.popup__photos'),
+      avatar: this.newElement.querySelector('.popup__avatar')
+    };
 
-    this.newElement.querySelector('.popup__title').textContent = this.adData.offer.title;
-    this.newElement.querySelector('.popup__text--address').textContent = this.adData.offer.Address;
-    this.newElement.querySelector('.popup__text--price').textContent = this.adData.offer.price + '₽/ночь';
-    this.newElement.querySelector('.popup__type').textContent = houseTypeOptions[this.adData.offer.type];
-    this.newElement.querySelector('.popup__text--capacity').textContent = this.adData.offer.rooms + ' комнаты(а) для ' + this.adData.offer.guests + ' гостей(я)';
-    this.newElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + this.adData.offer.checkin + ', выезд до ' + this.adData.offer.checkout;
-    this.popupFeatures.appendChild(this.setFeatures(this.adData.offer.features));
-    this.newElement.querySelector('.popup__description').textContent = this.adData.offer.description;
-    this.popupPhotos.appendChild(this.setPhotos(this.adData.offer.photos));
-    this.newElement.querySelector('.popup__avatar').textContent = this.adData.author.avatar;
+    this.Element.title.textContent = this.adData.offer.title;
+    this.Element.address.textContent = this.adData.offer.address;
+    this.Element.price.textContent = this.adData.offer.price + '₽/ночь';
+    this.Element.houseType.textContent = houseTypeOptions[this.adData.offer.type];
+    this.Element.guestsCapacity.textContent = this.adData.offer.rooms + ' комнаты(а) для ' + this.adData.offer.guests + ' гостей(я)';
+    this.Element.checkingTime.textContent = 'Заезд после ' + this.adData.offer.checkin + ', выезд до ' + this.adData.offer.checkout;
+    this.Element.description.textContent = this.adData.offer.description;
+    this.Element.avatar.textContent = this.adData.author.avatar;
+
+    this.Element.features.appendChild(this.setFeatures(this.adData.offer.features));
+    this.Element.photos.appendChild(this.setPhotos(this.adData.offer.photos));
   };
 
   Announcement.prototype.renderNewAd = function () {
