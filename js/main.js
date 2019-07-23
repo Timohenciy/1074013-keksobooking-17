@@ -12,7 +12,7 @@
 
   var mainPin = document.querySelector('.map__pin--main');
 
-  var isAnnouncementsCreated = false;
+  var announcementsIsCreated = false;
   var pageIsActive = false;
 
   var setInitialStateOfPage = function () {
@@ -33,43 +33,55 @@
   };
 
   var activatePage = function () {
-    disableStatusSwitching(submitFormFields);
-    disableStatusSwitching(mapFilters);
     map.classList.remove('map--faded');
     submitForm.classList.remove('ad-form--disabled');
+
+    disableStatusSwitching(submitFormFields);
+    disableStatusSwitching(mapFilters);
+  };
+
+  var onPinClickShowPopup = function (evt) { // Вешается на строке 69
+    evt.preventDefault();
+
+    if (evt.target.parentElement.nodeName === 'BUTTON') {
+      window.showAnnouncementPopup(evt.target.parentElement.offsetLeft); // Создается в модуле showFilteredPins
+    }
+
   };
 
   var onMouseDownActivatePage = function (evt) {
     evt.preventDefault();
 
-    if (pageIsActive === false) {
+    if (!pageIsActive) {
       activatePage();
 
       pageIsActive = true;
     }
 
-    mainPin.addEventListener('mousemove', onMouseMoveCreateTemplate);
-    mainPin.addEventListener('mouseup', onMouseUpSetPinCoords);
+    if (!announcementsIsCreated) {
+      window.data.load(window.onSuccesDataLoadCreatePins, window.onErrorShowPopup);
+      window.createAnnouncementPopup(); // Всплывающее окно объявления создается один раз
+
+      announcementsIsCreated = true;
+    }
+
+    mainPin.addEventListener('mousemove', onMouseMoveSetCoords);
+    mainPin.addEventListener('mouseup', onMouseUpSetCoords);
+    map.addEventListener('click', onPinClickShowPopup);
   };
 
-  var onMouseMoveCreateTemplate = function (evt) {
+  var onMouseMoveSetCoords = function (evt) {
     evt.preventDefault();
-
-    if (isAnnouncementsCreated === false) {
-      window.data.load(window.onSuccesDataLoadCreatePins, window.onErrorShowPopup);
-
-      isAnnouncementsCreated = true;
-    }
 
     setCoordinates(mainPin.offsetLeft, mainPin.offsetTop, mainPin.offsetWidth);
   };
 
-  var onMouseUpSetPinCoords = function (evt) {
+  var onMouseUpSetCoords = function (evt) {
     evt.preventDefault();
 
     setCoordinates(mainPin.offsetLeft, mainPin.offsetTop, mainPin.offsetWidth, mainPin.offsetHeight);
-    mainPin.removeEventListener('mousemove', onMouseMoveCreateTemplate);
-    mainPin.removeEventListener('mouseup', onMouseUpSetPinCoords);
+    mainPin.removeEventListener('mousemove', onMouseMoveSetCoords);
+    mainPin.removeEventListener('mouseup', onMouseUpSetCoords);
   };
 
   setInitialStateOfPage();

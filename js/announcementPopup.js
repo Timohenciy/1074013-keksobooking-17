@@ -22,64 +22,85 @@
 
   var announcementPopupTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
-  var Announcement = function (newAdData) {
-    this.adData = newAdData;
-  };
-
-  Announcement.prototype.setPhotos = function (photosURL) {
+  var setPhotos = function (elementToChange, photosURL) {
+    var photosElements = elementToChange.querySelector('.popup__photos');
     var photosCollection = document.createDocumentFragment();
-    this.popupPhotos.innerHTML = '';
+
+    photosElements.innerHTML = '';
+
+    // Я решил в функцию первым параметром передавать контейнер с фотографиями и удалять из него все элементы
+    // т.к. в любом случае, если фоток будет больше одной, то нужно будет добавлять дополнительные DOM элементы,
+    // а при таком варианте не нужно писать условия проверяющего сколько было передано фоток и нужно ли клонировать элементы
+    // функция просто удаляет старые элементы и добавляет новые
 
     for (var i = 0; i < photosURL.length; i++) {
       var newImage = announcementPopupTemplate.querySelector('.popup__photo').cloneNode(true);
       newImage.src = photosURL[i];
       photosCollection.appendChild(newImage);
     }
-    return photosCollection;
+
+    photosElements.appendChild(photosCollection);
   };
 
-  Announcement.prototype.setFeatures = function (currentFeatures) {
-    this.popupFeatures.innerHTML = '';
+  var setFeatures = function (elementToChange, currentFeatures) {
+    var featuresVariable = elementToChange.querySelector('.popup__features');
     var featuresCollection = document.createDocumentFragment();
+
+    featuresVariable.innerHTML = '';
 
     currentFeatures.forEach(function (element) {
       var newFeature = document.createElement('li');
-
       newFeature.classList.add('popup__feature');
       newFeature.classList.add(featuresClasses[element]);
       featuresCollection.appendChild(newFeature);
     });
 
-    return featuresCollection;
+    featuresVariable.appendChild(featuresCollection);
   };
 
-  Announcement.prototype.createNewAd = function () {
-    this.newElement = announcementPopupTemplate.cloneNode(true);
+  window.createAnnouncementPopup = function () {
+    var newElement = announcementPopupTemplate.cloneNode(true);
+    newElement.classList.add('hidden');
 
-    this.popupPhotos = this.newElement.querySelector('.popup__photos');
-    this.popupFeatures = this.newElement.querySelector('.popup__features');
-    this.popupWifi = this.popupFeatures.querySelector('.popup__feature--wifi');
-
-    this.newElement.querySelector('.popup__title').textContent = this.adData.offer.title;
-    this.newElement.querySelector('.popup__text--address').textContent = this.adData.offer.Address;
-    this.newElement.querySelector('.popup__text--price').textContent = this.adData.offer.price + '₽/ночь';
-    this.newElement.querySelector('.popup__type').textContent = houseTypeOptions[this.adData.offer.type];
-    this.newElement.querySelector('.popup__text--capacity').textContent = this.adData.offer.rooms + ' комнаты(а) для ' + this.adData.offer.guests + ' гостей(я)';
-    this.newElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + this.adData.offer.checkin + ', выезд до ' + this.adData.offer.checkout;
-    this.popupFeatures.appendChild(this.setFeatures(this.adData.offer.features));
-    this.newElement.querySelector('.popup__description').textContent = this.adData.offer.description;
-    this.popupPhotos.appendChild(this.setPhotos(this.adData.offer.photos));
-    this.newElement.querySelector('.popup__avatar').textContent = this.adData.author.avatar;
+    map.insertBefore(newElement, mapFilters);
   };
 
-  Announcement.prototype.renderNewAd = function () {
-    map.insertBefore(this.newElement, mapFilters);
+  var updatePopup = function (dataForUpdate) {
+    var popup = document.querySelector('.map__card');
+
+    popup.querySelector('.popup__title').textContent = dataForUpdate.offer.title;
+    popup.querySelector('.popup__text--address').textContent = dataForUpdate.offer.address;
+    popup.querySelector('.popup__text--price').textContent = dataForUpdate.offer.price + '₽/ночь';
+    popup.querySelector('.popup__type').textContent = houseTypeOptions[dataForUpdate.offer.type];
+    popup.querySelector('.popup__text--capacity').textContent = dataForUpdate.offer.rooms + ' комнаты(а) для ' + dataForUpdate.offer.guests + ' гостей(я)';
+    popup.querySelector('.popup__text--time').textContent = 'Заезд после ' + dataForUpdate.offer.checkin + ', выезд до ' + dataForUpdate.offer.checkout;
+    popup.querySelector('.popup__description').textContent = dataForUpdate.offer.description;
+    popup.querySelector('.popup__avatar').textContent = dataForUpdate.author.avatar;
+
+    setFeatures(popup, dataForUpdate.offer.features);
+    setPhotos(popup, dataForUpdate.offer.photos);
   };
 
-  window.createAnnouncement = function (data) {
-    var newAd = new Announcement(data[0]);
-    newAd.createNewAd();
-    newAd.renderNewAd();
-  };
+  window.showPopup = function (filteredData) {
+    var createdAd = document.querySelector('.map__card');
+    var closeButton = createdAd.querySelector('.popup__close');
 
+    updatePopup(filteredData);
+    createdAd.classList.remove('hidden');
+
+    var onEscClosePopup = function () {
+      createdAd.classList.add('hidden');
+
+      document.removeEventListener('keydown', window.onEscClosePopup);
+    };
+
+    var onClickClosePopup = function () {
+      createdAd.classList.add('hidden');
+
+      closeButton.removeEventListener('click', onClickClosePopup);
+    };
+
+    document.addEventListener('keydown', onEscClosePopup);
+    closeButton.addEventListener('click', onClickClosePopup);
+  };
 })();

@@ -16,7 +16,7 @@
     return fragment;
   };
 
-  window.createPins = function (pinsData) {
+  window.renderPins = function (pinsData) {
     var pinsCollection = document.createDocumentFragment();
 
     for (var i = 0; i < pinsData.length; i++) {
