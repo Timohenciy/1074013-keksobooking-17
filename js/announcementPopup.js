@@ -58,6 +58,7 @@
     featuresVariable.appendChild(featuresCollection);
   };
 
+  // 8. Компонентный подход - Личный проект: пока все дома. Часть 2
   window.createAnnouncementPopup = function () {
     var newElement = announcementPopupTemplate.cloneNode(true);
     newElement.classList.add('hidden');

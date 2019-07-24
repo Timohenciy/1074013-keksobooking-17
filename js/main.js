@@ -40,11 +40,13 @@
     disableStatusSwitching(mapFilters);
   };
 
+  // 8. Компонентный подход - Личный проект: подробности. Часть 2
   var onPinClickShowPopup = function (evt) { // Вешается на строке 69
     evt.preventDefault();
 
-    if (evt.target.parentElement.nodeName === 'BUTTON') {
+    if (evt.target.parentElement.type === 'button') {
       window.showAnnouncementPopup(evt.target.parentElement.offsetLeft); // Создается в модуле showFilteredPins
+      evt.target.parentElement.classList.add('map__pin--active');
     }
 
   };
