@@ -1,12 +1,6 @@
 'use strict';
 
 (function () {
-  var form = document.querySelector('.ad-form');
-
-  var priceForNight = form.querySelector('#price');
-
-  var houseType = form.querySelector('#type');
-
   var houseTypeMap = {
     'bungalo': 0,
     'flat': 1000,
@@ -14,26 +8,55 @@
     'palace': 10000
   };
 
-  var timeIn = form.querySelector('#timein');
+  var form = document.querySelector('.ad-form');
+  var submitButton = form.querySelector('.ad-form__submit');
 
+  var priceForNight = form.querySelector('#price');
+  var houseType = form.querySelector('#type');
+
+  var timeIn = form.querySelector('#timein');
   var timeOut = form.querySelector('#timeout');
 
-  var onTypeChange = function (evt) {
+  var guestsCapacity = document.querySelector('#capacity');
+  var roomNumber = document.querySelector('#room_number');
 
+  var onTypeChange = function (evt) {
     priceForNight.min = houseTypeMap[evt.target.value];
     priceForNight.placeholder = houseTypeMap[evt.target.value];
-
   };
 
-  var onTimeChange = function (variableField, target) {
-    variableField.selectedIndex = target.selectedIndex;
+  var onTimeChange = function (evt) {
+    if (evt.target === timeIn) {
+      timeOut.selectedIndex = evt.target.selectedIndex;
+    }
+    if (evt.target === timeOut) {
+      timeIn.selectedIndex = evt.target.selectedIndex;
+    }
   };
 
-  timeIn.addEventListener('change', function (evt) {
-    onTimeChange(timeOut, evt.target);
-  });
-  timeOut.addEventListener('change', function (evt) {
-    onTimeChange(timeIn, evt.target);
-  });
+  // 8. Компонентный подход - Личный проект: доверяй, но проверяй. Часть 2
+
+  var onSubmitCheckValidity = function () {
+    guestsCapacity.setCustomValidity('');
+
+    if (roomNumber.selectedIndex === 0 && guestsCapacity.selectedIndex !== 2) {
+      guestsCapacity.setCustomValidity('Выберите другое значение, 1 комната для 1 гостя');
+    }
+    if (roomNumber.selectedIndex === 1 && guestsCapacity.selectedIndex === 0 || roomNumber.selectedIndex === 1 && guestsCapacity.selectedIndex === 3) {
+      guestsCapacity.setCustomValidity('Выберите другое значение, 2 комнаты для 1 или 2 гостей');
+    }
+    if (roomNumber.selectedIndex === 2 && guestsCapacity.selectedIndex === 3) {
+      guestsCapacity.setCustomValidity('Выберите другое значение, 3 комнаты для 1, 2 или 3 гостей');
+    }
+    if (roomNumber.selectedIndex === 3 && guestsCapacity.selectedIndex !== 3) {
+      guestsCapacity.setCustomValidity('Выберите другое значение, это количество комнат не для гостей');
+    }
+  };
+
+  timeIn.addEventListener('change', onTimeChange);
+  timeOut.addEventListener('change', onTimeChange);
+
   houseType.addEventListener('change', onTypeChange);
+
+  submitButton.addEventListener('click', onSubmitCheckValidity);
 })();
