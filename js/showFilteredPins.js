@@ -36,7 +36,7 @@
     };
   };
 
-  var removeOldAnnoucements = function () {
+  window.removeAnnoucements = function () {
     var pinsCollection = mapPins.querySelectorAll('[type = "button"]');
     Array.from(pinsCollection).forEach(function (element) {
       element.remove();
@@ -44,7 +44,7 @@
   };
 
   var onHouseTypeChange = function () {
-    removeOldAnnoucements();
+    window.removeAnnoucements();
     updateAnnouncements();
   };
 

@@ -2,7 +2,7 @@
 
 (function () {
   var map = document.querySelector('.map');
-  var pin = map.querySelector('.map__pin--main');
+  var mainPin = map.querySelector('.map__pin--main');
 
   var onMouseDownStartDrag = function (evtDown) {
     evtDown.preventDefault();
@@ -25,9 +25,9 @@
         y: evtMove.clientY
       };
 
-      var newCoords = {
-        x: pin.offsetLeft - shift.x,
-        y: pin.offsetTop - shift.y
+      window.newCoords = {
+        x: mainPin.offsetLeft - shift.x,
+        y: mainPin.offsetTop - shift.y
       };
 
       var permissionHeight = {
@@ -35,14 +35,14 @@
         max: 630
       };
 
-      if (newCoords.y < permissionHeight.min) {
-        newCoords.y = 130;
-      } else if (newCoords.y > permissionHeight.max) {
-        newCoords.y = 630;
+      if (window.newCoords.y < permissionHeight.min) {
+        window.newCoords.y = 130;
+      } else if (window.newCoords.y > permissionHeight.max) {
+        window.newCoords.y = 630;
       }
 
-      pin.style.left = newCoords.x + 'px';
-      pin.style.top = newCoords.y + 'px';
+      mainPin.style.left = window.newCoords.x + 'px';
+      mainPin.style.top = window.newCoords.y + 'px';
     };
 
     var onMouseUpStopDrag = function (evtUp) {
@@ -55,5 +55,5 @@
     document.addEventListener('mouseup', onMouseUpStopDrag);
   };
 
-  pin.addEventListener('mousedown', onMouseDownStartDrag);
+  mainPin.addEventListener('mousedown', onMouseDownStartDrag);
 })();

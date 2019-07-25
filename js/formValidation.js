@@ -11,6 +11,8 @@
   var form = document.querySelector('.ad-form');
   var submitButton = form.querySelector('.ad-form__submit');
 
+  var address = form.querySelector('#address');
+
   var priceForNight = form.querySelector('#price');
   var houseType = form.querySelector('#type');
 
@@ -36,7 +38,7 @@
 
   // 8. Компонентный подход - Личный проект: доверяй, но проверяй. Часть 2
 
-  var onSubmitCheckValidity = function () {
+  var onClickCheckValidity = function () {
     guestsCapacity.setCustomValidity('');
 
     if (roomNumber.selectedIndex === 0 && guestsCapacity.selectedIndex !== 2) {
@@ -53,10 +55,20 @@
     }
   };
 
+  var onSubmitSendFormData = function (evt) {
+    evt.preventDefault();
+    var dataToSend = new FormData(form);
+    dataToSend.append('address', address.value);
+
+    window.data.save(dataToSend, window.setInactiveStateOfPage, window.onErrorLoadShowPopup);
+  };
+
   timeIn.addEventListener('change', onTimeChange);
   timeOut.addEventListener('change', onTimeChange);
 
   houseType.addEventListener('change', onTypeChange);
 
-  submitButton.addEventListener('click', onSubmitCheckValidity);
+  submitButton.addEventListener('click', onClickCheckValidity);
+
+  form.addEventListener('submit', onSubmitSendFormData);
 })();
