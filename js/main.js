@@ -16,7 +16,6 @@
   var mainPin = document.querySelector('.map__pin--main');
 
   var successWindowTemplate = document.querySelector('#success').content.querySelector('.success');
-  var errorWindowTemplate = document.querySelector('#error').content.querySelector('.error');
 
   var Pin = {
     startCoordX: mainPin.offsetLeft,

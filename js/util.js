@@ -25,6 +25,7 @@
     },
     hidePopup: function (element) {
       element.classList.add('hidden');
+
     }
   };
 })();
