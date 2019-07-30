@@ -22,9 +22,9 @@
   var guestsCapacity = document.querySelector('#capacity');
   var roomNumber = document.querySelector('#room_number');
 
-  var onTypeChange = function (evt) {
-    priceForNight.min = houseTypeMap[evt.target.value];
-    priceForNight.placeholder = houseTypeMap[evt.target.value];
+  var onTypeChange = function () {
+    priceForNight.min = houseTypeMap[houseType.value];
+    priceForNight.placeholder = houseTypeMap[houseType.value];
   };
 
   var onTimeChange = function (evt) {
@@ -57,10 +57,11 @@
 
   var onSubmitSendFormData = function (evt) {
     evt.preventDefault();
+
     var dataToSend = new FormData(form);
     dataToSend.append('address', address.value);
 
-    window.data.save(dataToSend, window.setInactiveStateOfPage, window.onErrorLoadShowPopup);
+    window.data.save(dataToSend, window.setInactiveStateOfPage, window.onLoadErrorShowPopup);
   };
 
   timeIn.addEventListener('change', onTimeChange);

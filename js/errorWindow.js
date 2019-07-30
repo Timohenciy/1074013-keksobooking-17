@@ -4,32 +4,41 @@
   var main = document.querySelector('main');
   var errorWindowTemplate = document.querySelector('#error').content.querySelector('.error');
 
-  window.onErrorLoadShowPopup = function () {
-    var errorWindow = errorWindowTemplate.cloneNode(true);
+  window.createErrorPopup = function () {
+    var errorWindowClone = errorWindowTemplate.cloneNode(true);
+    errorWindowClone.classList.add('hidden');
+
+    main.appendChild(errorWindowClone);
+  };
+
+  window.onLoadErrorShowPopup = function () {
+    var errorWindow = document.querySelector('.error');
     var errorButton = errorWindow.querySelector('.error__button');
 
-    var onEscDeleteElement = function (evt) {
-      evt.preventDefault();
+    var onEscClosePopup = function (evt) {
+
       if (evt.keyCode === 27) {
-        main.removeChild(errorWindow);
+        errorWindow.classList.add('hidden');
       }
 
-      errorButton.removeEventListener('click', onClickDeleteElement);
-      document.removeEventListener('keydown', onEscDeleteElement);
+      errorButton.removeEventListener('click', onClickClosePopup);
+      document.removeEventListener('click', onClickClosePopup);
+      document.removeEventListener('keydown', onEscClosePopup);
     };
 
-    var onClickDeleteElement = function (evt) {
-      evt.preventDefault();
-      main.removeChild(errorWindow);
+    var onClickClosePopup = function () {
+      errorWindow.classList.add('hidden');
 
-      document.removeEventListener('keydown', onEscDeleteElement);
-      errorButton.removeEventListener('click', onClickDeleteElement);
+      errorButton.removeEventListener('click', onClickClosePopup);
+      document.removeEventListener('click', onClickClosePopup);
+      document.removeEventListener('keydown', onEscClosePopup);
     };
 
-    main.appendChild(errorWindow);
+    errorWindow.classList.remove('hidden');
 
-    errorButton.addEventListener('click', onClickDeleteElement);
-    document.addEventListener('keydown', onEscDeleteElement);
+    errorButton.addEventListener('click', onClickClosePopup);
+    document.addEventListener('click', onClickClosePopup);
+    document.addEventListener('keydown', onEscClosePopup);
   };
 
 })();

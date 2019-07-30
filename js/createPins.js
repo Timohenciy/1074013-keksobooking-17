@@ -20,11 +20,14 @@
     var pinsCollection = document.createDocumentFragment();
 
     for (var i = 0; i < pinsData.length; i++) {
-      var newPin = createPin(pinsData[i]);
 
-      pinsCollection.appendChild(newPin);
+      if (pinsData.offer) {
+        var newPin = createPin(pinsData[i]);
+
+        pinsCollection.appendChild(newPin);
+      }
     }
-
     mapPins.appendChild(pinsCollection);
   };
+
 })();

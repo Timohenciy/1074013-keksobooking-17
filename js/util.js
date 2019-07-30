@@ -16,6 +16,12 @@
           element.classList.add('hidden');
         }
       });
+
+      document.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        element.classList.add('hidden');
+      });
+
     },
     hidePopup: function (element) {
       element.classList.add('hidden');

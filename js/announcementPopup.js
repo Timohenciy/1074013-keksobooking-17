@@ -82,7 +82,7 @@
     setPhotos(popup, dataForUpdate.offer.photos);
   };
 
-  window.showPopup = function (filteredData) {
+  window.showAdPopup = function (filteredData) {
     var adPopup = document.querySelector('.map__card');
     var closeButton = adPopup.querySelector('.popup__close');
 
