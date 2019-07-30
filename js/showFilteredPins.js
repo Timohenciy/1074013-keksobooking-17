@@ -14,6 +14,7 @@
   };
 
   var updateAnnouncements = function () {
+
     var filteredData = announcementsData.filter(function (element) {
       return element.offer.type === houseType.value;
     }).slice(0, MAX_PINS_TO_SHOW);
@@ -26,26 +27,31 @@
       // параметром принимает данные объекта - location, для поиска в массиве filteredData похожих данных,
       // если все ок, то показывает popup. Используется в модуле 'main'
 
-      var adToShow = filteredData.find(function (element) {
+      var announcementToShow = filteredData.find(function (element) {
         return element.location.x === locationToCampare;
       });
 
-      if (adToShow) {
-        window.showPopup(adToShow);
+      if (announcementToShow) {
+        window.showAdPopup(announcementToShow);
       }
     };
+
   };
 
-  var removeOldAnnoucements = function () {
+  window.removeAnnoucements = function () {
+
     var pinsCollection = mapPins.querySelectorAll('[type = "button"]');
     Array.from(pinsCollection).forEach(function (element) {
       element.remove();
     });
+
   };
 
   var onHouseTypeChange = function () {
-    removeOldAnnoucements();
+
+    window.removeAnnoucements();
     updateAnnouncements();
+
   };
 
   houseType.addEventListener('change', onHouseTypeChange);

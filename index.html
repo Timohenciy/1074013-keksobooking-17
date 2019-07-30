@@ -42,7 +42,7 @@
             <option value="any" selected>Любой тип жилья</option>
             <option value="palace">Дворец</option>
             <option value="flat">Квартира</option>
-            <option value="house">Дом</option>
+            <option value="house" selected>Дом</option>
             <option value="bungalo">Бунгало</option>
           </select>
           <select name="housing-price" id="housing-price" class="map__filter">
@@ -153,7 +153,7 @@
         <fieldset class="ad-form__element ad-form__element--wide features">
           <legend>Удобства: Wi-Fi, кухня, парковка, стиралка, лифт, кондиционер</legend>
           <input type="checkbox" name="features" value="wifi" id="feature-wifi" class="feature__checkbox visually-hidden">
-          <label class="feature feature--wifi" for="feature-wifi">Wi-Fi</label>
+          <label class="feature feature--wifi" for="feature-wifi" disabled>Wi-Fi</label>
           <input type="checkbox" name="features" value="dishwasher" id="feature-dishwasher" class="feature__checkbox visually-hidden">
           <label class="feature feature--dishwasher" for="feature-dishwasher">Посудомоечная машина</label>
           <input type="checkbox" name="features" value="parking" id="feature-parking" class="feature__checkbox visually-hidden">
@@ -248,11 +248,11 @@
     </div>
   </template>
 
+  <script src="js/util.js"></script>
+  <script src="js/errorWindow.js"></script>
   <script src="js/main.js"></script>
   <script src="js/showFilteredPins.js"></script>
-  <script src="js/util.js"></script>
   <script src="js/data.js"></script>
-  <script src="js/errorWindow.js"></script>
   <script src="js/createPins.js"></script>
   <script src="js/announcementPopup.js"></script>
   <script src="js/pinMove.js"></script>

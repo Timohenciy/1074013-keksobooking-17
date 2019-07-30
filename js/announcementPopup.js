@@ -82,21 +82,22 @@
     setPhotos(popup, dataForUpdate.offer.photos);
   };
 
-  window.showPopup = function (filteredData) {
-    var createdAd = document.querySelector('.map__card');
-    var closeButton = createdAd.querySelector('.popup__close');
+  window.showAdPopup = function (filteredData) {
+    var adPopup = document.querySelector('.map__card');
+    var closeButton = adPopup.querySelector('.popup__close');
 
     updatePopup(filteredData);
-    createdAd.classList.remove('hidden');
+    adPopup.classList.remove('hidden');
 
-    var onEscClosePopup = function () {
-      createdAd.classList.add('hidden');
-
+    var onEscClosePopup = function (evt) {
+      if (evt.keyCode === 27) {
+        adPopup.classList.add('hidden');
+      }
       document.removeEventListener('keydown', window.onEscClosePopup);
     };
 
     var onClickClosePopup = function () {
-      createdAd.classList.add('hidden');
+      adPopup.classList.add('hidden');
 
       closeButton.removeEventListener('click', onClickClosePopup);
     };
