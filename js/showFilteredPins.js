@@ -51,7 +51,6 @@
 
   window.onSuccesDataLoadCreatePins = function (data) {
     announcementsData = data;
-    console.log(data);
 
     window.renderPins(announcementsData);
   };
@@ -121,7 +120,7 @@
   houseGuests.addEventListener('change', onHouseTypeChange);
 
   wifi.addEventListener('change', function () {
-    console.log('test');
+    wifi.checked = true;
   });
 
 })();
