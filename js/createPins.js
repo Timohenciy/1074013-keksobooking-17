@@ -20,8 +20,7 @@
     var pinsCollection = document.createDocumentFragment();
 
     for (var i = 0; i < pinsData.length; i++) {
-
-      if (pinsData.offer) {
+      if (pinsData[i].offer) {
         var newPin = createPin(pinsData[i]);
 
         pinsCollection.appendChild(newPin);

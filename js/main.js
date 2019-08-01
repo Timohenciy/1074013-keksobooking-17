@@ -2,7 +2,7 @@
 
 (function () {
   var map = document.querySelector('.map');
-  var mapFilters = map.querySelectorAll('.map__filter');
+  var mapFilters = map.querySelector('.map__filters');
 
   var main = document.querySelector('main');
 
