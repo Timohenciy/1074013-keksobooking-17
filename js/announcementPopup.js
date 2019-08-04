@@ -28,11 +28,6 @@
 
     photosElements.innerHTML = '';
 
-    // Я решил в функцию первым параметром передавать контейнер с фотографиями и удалять из него все элементы
-    // т.к. в любом случае, если фоток будет больше одной, то нужно будет добавлять дополнительные DOM элементы,
-    // а при таком варианте не нужно писать условия проверяющего сколько было передано фоток и нужно ли клонировать элементы
-    // функция просто удаляет старые элементы и добавляет новые
-
     for (var i = 0; i < photosURL.length; i++) {
       var newImage = announcementPopupTemplate.querySelector('.popup__photo').cloneNode(true);
       newImage.src = photosURL[i];
@@ -58,7 +53,6 @@
     featuresVariable.appendChild(featuresCollection);
   };
 
-  // 8. Компонентный подход - Личный проект: пока все дома. Часть 2
   window.createAnnouncementPopup = function () {
     var newElement = announcementPopupTemplate.cloneNode(true);
     newElement.classList.add('hidden');

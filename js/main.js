@@ -2,16 +2,13 @@
 
 (function () {
   var map = document.querySelector('.map');
-  var mapFilters = map.querySelectorAll('.map__filter');
+  var mapFilters = map.querySelector('.map__filters');
 
   var main = document.querySelector('main');
 
-  var submitFormSection = document.querySelector('.notice');
-  var submitForm = submitFormSection.querySelector('.ad-form');
-  var submitFormFields = submitFormSection.querySelectorAll('fieldset');
+  var submitForm = document.querySelector('.ad-form');
+  var submitFormFields = submitForm.querySelectorAll('fieldset');
   var features = submitForm.querySelectorAll('.feature__checkbox');
-
-  var addressInput = submitFormSection.querySelector('#address');
 
   var mainPin = document.querySelector('.map__pin--main');
 
@@ -25,6 +22,7 @@
   };
 
   var Form = {
+    // Первоначальные значения полей формы
     houseType: submitForm.type.selectedIndex,
     timeIn: submitForm.timein.selectedIndex,
     timeOut: submitForm.timeout.selectedIndex,
@@ -35,17 +33,23 @@
   var announcementsIsCreated = false;
   var pageIsActive = false;
 
-  var formFieldsDisableStatusSwitching = function (collection, isDisabled) {
-    for (var i = 0; i < collection.length; i++) {
-      collection[i].disabled = isDisabled;
-    }
+  var formFieldsDisableStatusSwitching = function (collection, disable) {
+
+    Array.from(collection).forEach(function (element) {
+      if (disable) {
+        element.setAttribute('disabled', '');
+      } else {
+        element.removeAttribute('disabled');
+      }
+    });
   };
 
   var setAddressInputValue = function (pinX, pinY, pinWidth) {
-    addressInput.value = (pinX + Math.round(pinWidth / 2)) + ', ' + pinY;
+    submitForm.address.value = (pinX + Math.round(pinWidth / 2)) + ', ' + pinY;
   };
 
   var resetFormState = function () {
+
     submitForm.title.value = '';
     submitForm.price.value = '';
     submitForm.description.value = '';
@@ -67,9 +71,7 @@
 
   var setInitialStateOfPage = function () {
 
-    // Вызывается один раз после загрузки страницы
-
-    addressInput.value = mainPin.offsetLeft + ', ' + mainPin.offsetTop;
+    submitForm.address.value = mainPin.offsetLeft + ', ' + mainPin.offsetTop;
 
     window.popup.createPopup(successWindowTemplate, main);
     window.createErrorPopup();
@@ -79,8 +81,6 @@
   };
 
   window.setInactiveStateOfPage = function () {
-
-    // Вызывается после успешной отправки формы или нажатия reset
 
     var succesMessage = document.querySelector('.success');
 
@@ -103,9 +103,7 @@
     formFieldsDisableStatusSwitching(features);
   };
 
-  // 8. Компонентный подход - Личный проект: подробности. Часть 2
-
-  var onPinClickShowPopup = function (evt) { // Вешается на строке 69
+  var onPinClickShowPopup = function (evt) {
     evt.preventDefault();
 
     if (evt.target.parentElement.type === 'button') {
