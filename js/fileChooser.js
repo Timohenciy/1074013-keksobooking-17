@@ -56,7 +56,5 @@
     }
   };
 
-  adForm.images.addEventListener('change', function () {
-    if ()
-  });
+  adForm.images.addEventListener('change', createNewHouseImage);
 })();
