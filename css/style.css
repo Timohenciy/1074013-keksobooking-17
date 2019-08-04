@@ -814,6 +814,9 @@ fieldset {
 
   background-color: #e4e4de;
   border-radius: 5px;
+
+  text-align: center;
+  line-height: 105px;
 }
 
 .ad-form__element--submit {
