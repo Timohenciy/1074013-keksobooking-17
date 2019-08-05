@@ -36,8 +36,6 @@
     }
   };
 
-  // 8. Компонентный подход - Личный проект: доверяй, но проверяй. Часть 2
-
   var onClickCheckValidity = function () {
     guestsCapacity.setCustomValidity('');
 

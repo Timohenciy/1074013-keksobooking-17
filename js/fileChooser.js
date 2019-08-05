@@ -56,8 +56,4 @@
 
   adForm.avatar.addEventListener('change', onInputChangeDownloadImage);
   adForm.images.addEventListener('change', onInputChangeDownloadImage);
-
-  /* document.addEventListener('click', function (evt) {
-    console.dir(evt.target);
-  }); */
 })();
