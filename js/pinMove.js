@@ -20,11 +20,6 @@
       y: evtDown.clientY
     };
 
-    console.log('Offset left: ' + mainPin.offsetLeft);
-    console.log('Offset top: ' + mainPin.offsetTop);
-    console.log('evtDown.clientX: ' + evtDown.clientX);
-    console.log('evtDown.clientY: ' + evtDown.clientY);
-
     var onMouseMoveDragPin = function (evtMove) {
       evtMove.preventDefault();
 
