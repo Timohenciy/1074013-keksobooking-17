@@ -1,31 +1,40 @@
 'use strict';
 
 (function () {
-  window.popup = {
-    createPopup: function (elementToBeCloned, appendTo) {
-      var newPopupElement = elementToBeCloned.cloneNode(true);
-      newPopupElement.classList.add('hidden');
+  window.ESC_BUTTON = 27;
 
-      appendTo.appendChild(newPopupElement);
+  var main = document.querySelector('main');
+  var successWindowTemplate = document.querySelector('#success').content.querySelector('.success');
+
+  window.successPopup = {
+    createSuccessPopup: function () {
+      var successPopup = successWindowTemplate.cloneNode(true);
+      successPopup.classList.add('hidden');
+
+      main.appendChild(successPopup);
     },
-    showPopup: function (element) {
-      element.classList.remove('hidden');
+    showSuccessPopup: function () {
+      var successPopup = document.querySelector('.success');
+      successPopup.classList.remove('hidden');
 
-      document.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === 27) {
-          element.classList.add('hidden');
+      var onEscClosePopup = function (evt) {
+        if (evt.keyCode === window.ESC_BUTTON) {
+          successPopup.classList.add('hidden');
+
+          document.removeEventListener('keydown', onEscClosePopup);
+          document.removeEventListener('click', onClickClosePopup);
         }
-      });
+      };
 
-      document.addEventListener('click', function (evt) {
-        evt.preventDefault();
-        element.classList.add('hidden');
-      });
+      var onClickClosePopup = function () {
+        successPopup.classList.add('hidden');
 
-    },
-    hidePopup: function (element) {
-      element.classList.add('hidden');
+        document.removeEventListener('keydown', onEscClosePopup);
+        document.removeEventListener('click', onClickClosePopup);
+      };
 
+      document.addEventListener('keydown', onEscClosePopup);
+      document.addEventListener('click', onClickClosePopup);
     }
   };
 })();

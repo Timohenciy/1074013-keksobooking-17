@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var featuresClasses = {
+  var FeaturesClasses = {
     'wifi': 'popup__feature--wifi',
     'dishwasher': 'popup__feature--dishwasher',
     'parking': 'popup__feature--parking',
@@ -10,7 +10,7 @@
     'conditioner': 'popup__feature--conditioner'
   };
 
-  var houseTypeOptions = {
+  var HouseTypeOptions = {
     'flat': 'Квартира',
     'bungalo': 'Бунгало',
     'house': 'Дом',
@@ -28,11 +28,11 @@
 
     photosElements.innerHTML = '';
 
-    for (var i = 0; i < photosURL.length; i++) {
+    Array.from(photosURL).forEach(function (element) {
       var newImage = announcementPopupTemplate.querySelector('.popup__photo').cloneNode(true);
-      newImage.src = photosURL[i];
+      newImage.src = element;
       photosCollection.appendChild(newImage);
-    }
+    });
 
     photosElements.appendChild(photosCollection);
   };
@@ -46,18 +46,11 @@
     currentFeatures.forEach(function (element) {
       var newFeature = document.createElement('li');
       newFeature.classList.add('popup__feature');
-      newFeature.classList.add(featuresClasses[element]);
+      newFeature.classList.add(FeaturesClasses[element]);
       featuresCollection.appendChild(newFeature);
     });
 
     featuresVariable.appendChild(featuresCollection);
-  };
-
-  window.createAnnouncementPopup = function () {
-    var newElement = announcementPopupTemplate.cloneNode(true);
-    newElement.classList.add('hidden');
-
-    map.insertBefore(newElement, mapFilters);
   };
 
   var updatePopup = function (dataForUpdate) {
@@ -66,7 +59,7 @@
     popup.querySelector('.popup__title').textContent = dataForUpdate.offer.title;
     popup.querySelector('.popup__text--address').textContent = dataForUpdate.offer.address;
     popup.querySelector('.popup__text--price').textContent = dataForUpdate.offer.price + '₽/ночь';
-    popup.querySelector('.popup__type').textContent = houseTypeOptions[dataForUpdate.offer.type];
+    popup.querySelector('.popup__type').textContent = HouseTypeOptions[dataForUpdate.offer.type];
     popup.querySelector('.popup__text--capacity').textContent = dataForUpdate.offer.rooms + ' комнаты(а) для ' + dataForUpdate.offer.guests + ' гостей(я)';
     popup.querySelector('.popup__text--time').textContent = 'Заезд после ' + dataForUpdate.offer.checkin + ', выезд до ' + dataForUpdate.offer.checkout;
     popup.querySelector('.popup__description').textContent = dataForUpdate.offer.description;
@@ -76,27 +69,35 @@
     setPhotos(popup, dataForUpdate.offer.photos);
   };
 
-  window.showAdPopup = function (filteredData) {
-    var adPopup = document.querySelector('.map__card');
-    var closeButton = adPopup.querySelector('.popup__close');
+  window.announcementPopup = {
+    createAnnouncementPopup: function () {
+      var newElement = announcementPopupTemplate.cloneNode(true);
+      newElement.classList.add('hidden');
 
-    updatePopup(filteredData);
-    adPopup.classList.remove('hidden');
+      map.insertBefore(newElement, mapFilters);
+    },
+    showAdPopup: function (filteredData) {
+      var adPopup = document.querySelector('.map__card');
+      var closeButton = adPopup.querySelector('.popup__close');
 
-    var onEscClosePopup = function (evt) {
-      if (evt.keyCode === 27) {
+      updatePopup(filteredData);
+      adPopup.classList.remove('hidden');
+
+      var onEscClosePopup = function (evt) {
+        if (evt.keyCode === window.ESC_BUTTON) {
+          adPopup.classList.add('hidden');
+        }
+        document.removeEventListener('keydown', window.onEscClosePopup);
+      };
+
+      var onClickClosePopup = function () {
         adPopup.classList.add('hidden');
-      }
-      document.removeEventListener('keydown', window.onEscClosePopup);
-    };
 
-    var onClickClosePopup = function () {
-      adPopup.classList.add('hidden');
+        closeButton.removeEventListener('click', onClickClosePopup);
+      };
 
-      closeButton.removeEventListener('click', onClickClosePopup);
-    };
-
-    document.addEventListener('keydown', onEscClosePopup);
-    closeButton.addEventListener('click', onClickClosePopup);
+      document.addEventListener('keydown', onEscClosePopup);
+      closeButton.addEventListener('click', onClickClosePopup);
+    }
   };
 })();
