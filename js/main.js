@@ -4,15 +4,11 @@
   var map = document.querySelector('.map');
   var mapFilters = map.querySelector('.map__filters');
 
-  var main = document.querySelector('main');
-
   var submitForm = document.querySelector('.ad-form');
   var submitFormFields = submitForm.querySelectorAll('fieldset');
   var features = submitForm.querySelectorAll('.feature__checkbox');
 
   var mainPin = document.querySelector('.map__pin--main');
-
-  var successWindowTemplate = document.querySelector('#success').content.querySelector('.success');
 
   var Pin = {
     startCoordX: mainPin.offsetLeft,
@@ -50,6 +46,8 @@
 
   var resetFormState = function () {
 
+    submitForm.classList.add('ad-form--disabled');
+
     submitForm.title.value = '';
     submitForm.price.value = '';
     submitForm.description.value = '';
@@ -67,14 +65,28 @@
         element.checked = false;
       }
     });
+
+    formFieldsDisableStatusSwitching(submitFormFields, true);
+  };
+
+  var resetMapState = function () {
+
+    map.classList.add('map--faded');
+
+    mainPin.style.left = Pin.startCoordX + 'px';
+    mainPin.style.top = Pin.startCoordY + 'px';
+
+    window.showFilteredPins.removeAnnouncements();
+
+    formFieldsDisableStatusSwitching(mapFilters, true);
   };
 
   var setInitialStateOfPage = function () {
 
     submitForm.address.value = mainPin.offsetLeft + ', ' + mainPin.offsetTop;
 
-    window.popup.createPopup(successWindowTemplate, main);
-    window.createErrorPopup();
+    window.successPopup.createSuccessPopup();
+    window.errorPopup.createErrorPopup();
 
     formFieldsDisableStatusSwitching(submitFormFields, true);
     formFieldsDisableStatusSwitching(mapFilters, true);
@@ -82,16 +94,13 @@
 
   window.setInactiveStateOfPage = function () {
 
-    var succesMessage = document.querySelector('.success');
-
-    mainPin.style.left = Pin.startCoordX + 'px';
-    mainPin.style.top = Pin.startCoordY + 'px';
-
-    window.removeAnnoucements();
+    announcementsIsCreated = false;
+    pageIsActive = false;
 
     resetFormState();
+    resetMapState();
 
-    window.popup.showPopup(succesMessage);
+    window.successPopup.showSuccessPopup();
   };
 
   var setActiveStateOfPage = function () {
@@ -104,13 +113,16 @@
   };
 
   var onPinClickShowPopup = function (evt) {
-    evt.preventDefault();
-
-    if (evt.target.parentElement.type === 'button') {
-      window.showAnnouncementPopup(evt.target.parentElement.offsetLeft); // Создается в модуле showFilteredPins
-      evt.target.parentElement.classList.add('map__pin--active');
+    var activePin = document.querySelector('.map__pin--active');
+    if (activePin) {
+      activePin.classList.remove('map__pin--active');
     }
 
+    if (evt.target.parentElement.type === 'button') {
+
+      window.showAnnouncementPopup(evt.target.parentElement.offsetLeft);
+      evt.target.parentElement.classList.add('map__pin--active');
+    }
   };
 
   var onPinMouseDownActivatePage = function (evt) {
@@ -123,8 +135,8 @@
     }
 
     if (!announcementsIsCreated) {
-      window.data.load(window.onSuccesDataLoadCreatePins, window.onLoadErrorShowPopup);
-      window.createAnnouncementPopup(); // Всплывающее окно объявления создается один раз
+      window.data.load(window.showFilteredPins.onSuccesDataLoadCreatePins, window.errorPopup.onLoadErrorShowPopup);
+      window.announcementPopup.createAnnouncementPopup(); // Всплывающее окно объявления создается один раз
 
       announcementsIsCreated = true;
     }

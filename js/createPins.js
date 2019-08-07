@@ -19,13 +19,14 @@
   window.renderPins = function (pinsData) {
     var pinsCollection = document.createDocumentFragment();
 
-    for (var i = 0; i < pinsData.length; i++) {
-      if (pinsData[i].offer) {
-        var newPin = createPin(pinsData[i]);
+    pinsData.forEach(function (element) {
+      if (element.offer) {
+        var newPin = createPin(element);
 
         pinsCollection.appendChild(newPin);
       }
-    }
+    });
+
     mapPins.appendChild(pinsCollection);
   };
 

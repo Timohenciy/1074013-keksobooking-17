@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var PIC_TYPE = ['jpg', 'gif', 'jpeg', 'png'];
+  var POSIBLE_PIC_TYPES = ['jpg', 'gif', 'jpeg', 'png'];
   var adForm = document.querySelector('.ad-form');
   var avatarImage = adForm.querySelector('[alt = "Аватар пользователя"]');
   var houseImage = adForm.querySelector('.ad-form__photo');
@@ -20,7 +20,7 @@
     var fileName = file.name.toLowerCase();
 
     if (file) {
-      var fileMatch = PIC_TYPE.some(function (element) {
+      var fileMatch = POSIBLE_PIC_TYPES.some(function (element) {
         return fileName.endsWith(element);
       });
 
@@ -32,7 +32,10 @@
           reader.addEventListener('load', function () {
             avatarImage.src = reader.result;
           });
-        } else if (evt.target.classList.contains('ad-form__input')) {
+        }
+
+        if (evt.target.classList.contains('ad-form__input')) {
+
           if (!houseImage.children[0]) {
             var createdImage = createNewHouseImage();
             houseImage.appendChild(createdImage);
