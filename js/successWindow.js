@@ -34,7 +34,7 @@
     };
 
     document.addEventListener('keydown', onEscClosePopup);
-    document.addEventListener('click', onClickClosePopup);
+    document.addEventListener('mousedown', onClickClosePopup);
   };
 
   window.successWindow = {

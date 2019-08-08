@@ -85,6 +85,7 @@
 
     submitForm.address.value = mainPin.offsetLeft + ', ' + mainPin.offsetTop;
 
+    window.announcementPopup.createAnnouncementPopup();
     window.successWindow.createSuccessPopup();
     window.errorWindow.createErrorPopup();
 
@@ -93,14 +94,14 @@
   };
 
   var setInactiveStateOfPage = function () {
-
+    if (!window.announcementPopupControl.adPopup.classList.contains('hidden')) {
+      window.announcementPopupControl.adPopup.classList.add('hidden');
+    }
     announcementsIsCreated = false;
     pageIsActive = false;
 
     resetFormState();
     resetMapState();
-
-    window.successWindow.showSuccessPopup();
   };
 
   var setActiveStateOfPage = function () {
@@ -125,7 +126,7 @@
     }
   };
 
-  var onPinMouseDownActivatePage = function (evt) {
+  var onMainPinMouseDownActivatePage = function (evt) {
     evt.preventDefault();
 
     if (!pageIsActive) {
@@ -136,7 +137,6 @@
 
     if (!announcementsIsCreated) {
       window.data.load(window.showFilteredPins.onSuccesDataLoadCreatePins, window.errorWindow.onLoadErrorShowPopup);
-      window.announcementPopup.createAnnouncementPopup(); // Всплывающее окно объявления создается один раз
 
       announcementsIsCreated = true;
     }
@@ -162,7 +162,7 @@
 
   setInitialStateOfPage();
 
-  mainPin.addEventListener('mousedown', onPinMouseDownActivatePage);
+  mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
 
   window.main = {
     setInactiveStateOfPage: setInactiveStateOfPage

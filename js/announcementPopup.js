@@ -70,10 +70,17 @@
   };
 
   var createAnnouncementPopup = function () {
-    var newElement = announcementPopupTemplate.cloneNode(true);
-    newElement.classList.add('hidden');
+    var adPopup = announcementPopupTemplate.cloneNode(true);
+    var closeButton = adPopup.querySelector('.popup__close');
+    adPopup.classList.add('hidden');
 
-    map.insertBefore(newElement, mapFilters);
+    map.insertBefore(adPopup, mapFilters);
+
+    window.announcementPopupControl = {
+      // Вынес их в отдельное пространство имен потомучто используются в разных модулях, и так как создаются в этой функции то записать их в window.announcementPopup не получиться
+      adPopup: adPopup,
+      closePopupButton: closeButton
+    };
   };
 
   var showAnnouncementPopup = function (filteredData) {

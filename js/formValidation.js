@@ -76,7 +76,9 @@
     var dataToSend = new FormData(form);
     dataToSend.append('address', address.value);
 
-    window.data.save(dataToSend, window.main.setInactiveStateOfPage, window.errorPopup.onLoadErrorShowPopup);
+    window.data.save(dataToSend, window.successWindow.showSuccessPopup, window.errorWindow.onLoadErrorShowPopup);
+
+    window.main.setInactiveStateOfPage();
   };
 
   timeIn.addEventListener('change', onTimeChange);

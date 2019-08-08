@@ -99,16 +99,14 @@
   };
 
   var onCheckboxClickUpdate = function (evt) {
-    var adPopup = document.querySelector('.map__card');
-
     if (!evt.target.control.checked) {
       evt.target.control.setAttribute('checked', '');
     } else {
       evt.target.control.removeAttribute('checked');
     }
 
-    if (!adPopup.classList.contains('hidden')) {
-      adPopup.classList.add('hidden');
+    if (!window.announcementPopupControl.adPopup.classList.contains('hidden')) {
+      window.announcementPopupControl.adPopup.classList.add('hidden');
     }
 
     removeAnnouncements();
@@ -116,11 +114,8 @@
   };
 
   var onMapFilterChangeUpdatePins = function () {
-
-    var adPopup = document.querySelector('.map__card');
-
-    if (!adPopup.classList.contains('hidden')) {
-      adPopup.classList.add('hidden');
+    if (!window.announcementPopupControl.adPopup.classList.contains('hidden')) {
+      window.announcementPopupControl.adPopup.classList.add('hidden');
     }
 
     removeAnnouncements();
