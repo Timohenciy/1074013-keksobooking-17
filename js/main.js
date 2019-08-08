@@ -85,14 +85,14 @@
 
     submitForm.address.value = mainPin.offsetLeft + ', ' + mainPin.offsetTop;
 
-    window.successPopup.createSuccessPopup();
-    window.errorPopup.createErrorPopup();
+    window.successWindow.createSuccessPopup();
+    window.errorWindow.createErrorPopup();
 
     formFieldsDisableStatusSwitching(submitFormFields, true);
     formFieldsDisableStatusSwitching(mapFilters, true);
   };
 
-  window.setInactiveStateOfPage = function () {
+  var setInactiveStateOfPage = function () {
 
     announcementsIsCreated = false;
     pageIsActive = false;
@@ -100,7 +100,7 @@
     resetFormState();
     resetMapState();
 
-    window.successPopup.showSuccessPopup();
+    window.successWindow.showSuccessPopup();
   };
 
   var setActiveStateOfPage = function () {
@@ -120,7 +120,7 @@
 
     if (evt.target.parentElement.type === 'button') {
 
-      window.showAnnouncementPopup(evt.target.parentElement.offsetLeft);
+      window.showFilteredPins.showComparedAdPopup(evt.target.parentElement.offsetLeft);
       evt.target.parentElement.classList.add('map__pin--active');
     }
   };
@@ -135,7 +135,7 @@
     }
 
     if (!announcementsIsCreated) {
-      window.data.load(window.showFilteredPins.onSuccesDataLoadCreatePins, window.errorPopup.onLoadErrorShowPopup);
+      window.data.load(window.showFilteredPins.onSuccesDataLoadCreatePins, window.errorWindow.onLoadErrorShowPopup);
       window.announcementPopup.createAnnouncementPopup(); // Всплывающее окно объявления создается один раз
 
       announcementsIsCreated = true;
@@ -163,4 +163,8 @@
   setInitialStateOfPage();
 
   mainPin.addEventListener('mousedown', onPinMouseDownActivatePage);
+
+  window.main = {
+    setInactiveStateOfPage: setInactiveStateOfPage
+  };
 })();

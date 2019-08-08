@@ -70,34 +70,32 @@
     UPDATE_TIMER = setTimeout(func, timeout);
   };
 
-  window.showFilteredPins = {
-    onSuccesDataLoadCreatePins: function (data) {
-      announcementsData = data;
+  var showComparedAdPopup = function (locationToCampare) {
 
-      window.showAnnouncementPopup = function (locationToCampare) {
+    // Функция колбэк, вызывается при клике по пину на карте,
+    // параметром принимает данные объекта - location, для поиска в массиве похожих данных,
+    // если все ок, то показывает popup. Используется в модуле 'main'
 
-        // Функция колбэк, вызывается при клике по пину на карте,
-        // параметром принимает данные объекта - location, для поиска в массиве похожих данных,
-        // если все ок, то показывает popup. Используется в модуле 'main'
+    var announcementToShow = announcementsData.find(function (element) {
+      return element.location.x === locationToCampare;
+    });
 
-        var announcementToShow = announcementsData.find(function (element) {
-          return element.location.x === locationToCampare;
-        });
-
-        if (announcementToShow) {
-          window.announcementPopup.showAdPopup(announcementToShow);
-        }
-      };
-
-      window.renderPins(announcementsData.slice(0, MAX_PINS_TO_SHOW));
-    },
-    removeAnnouncements: function () {
-
-      var pinsCollection = mapPins.querySelectorAll('[type = "button"]');
-      Array.from(pinsCollection).forEach(function (element) {
-        element.remove();
-      });
+    if (announcementToShow) {
+      window.announcementPopup.showAnnouncementPopup(announcementToShow);
     }
+  };
+
+  var onSuccesDataLoadCreatePins = function (data) {
+    announcementsData = data;
+
+    window.renderPins(announcementsData.slice(0, MAX_PINS_TO_SHOW));
+  };
+
+  var removeAnnouncements = function () {
+    var pinsCollection = mapPins.querySelectorAll('[type = "button"]');
+    Array.from(pinsCollection).forEach(function (element) {
+      element.remove();
+    });
   };
 
   var onCheckboxClickUpdate = function (evt) {
@@ -113,7 +111,7 @@
       adPopup.classList.add('hidden');
     }
 
-    window.showFilteredPins.removeAnnouncements();
+    removeAnnouncements();
     debounce(updateAnnouncements, TIMEOUT_DELAY);
   };
 
@@ -125,7 +123,7 @@
       adPopup.classList.add('hidden');
     }
 
-    window.showFilteredPins.removeAnnouncements();
+    removeAnnouncements();
     debounce(updateAnnouncements, TIMEOUT_DELAY);
   };
 
@@ -163,4 +161,10 @@
   mapFilters['housing-guests'].addEventListener('change', onMapFilterChangeUpdatePins);
 
   mapFilters['housing-features'].addEventListener('click', onCheckboxClickUpdate);
+
+  window.showFilteredPins = {
+    onSuccesDataLoadCreatePins: onSuccesDataLoadCreatePins,
+    showComparedAdPopup: showComparedAdPopup,
+    removeAnnouncements: removeAnnouncements
+  };
 })();

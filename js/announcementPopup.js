@@ -69,35 +69,39 @@
     setPhotos(popup, dataForUpdate.offer.photos);
   };
 
-  window.announcementPopup = {
-    createAnnouncementPopup: function () {
-      var newElement = announcementPopupTemplate.cloneNode(true);
-      newElement.classList.add('hidden');
+  var createAnnouncementPopup = function () {
+    var newElement = announcementPopupTemplate.cloneNode(true);
+    newElement.classList.add('hidden');
 
-      map.insertBefore(newElement, mapFilters);
-    },
-    showAdPopup: function (filteredData) {
-      var adPopup = document.querySelector('.map__card');
-      var closeButton = adPopup.querySelector('.popup__close');
+    map.insertBefore(newElement, mapFilters);
+  };
 
-      updatePopup(filteredData);
-      adPopup.classList.remove('hidden');
+  var showAnnouncementPopup = function (filteredData) {
+    var adPopup = document.querySelector('.map__card');
+    var closeButton = adPopup.querySelector('.popup__close');
 
-      var onEscClosePopup = function (evt) {
-        if (evt.keyCode === window.ESC_BUTTON) {
-          adPopup.classList.add('hidden');
-        }
-        document.removeEventListener('keydown', window.onEscClosePopup);
-      };
+    updatePopup(filteredData);
+    adPopup.classList.remove('hidden');
 
-      var onClickClosePopup = function () {
+    var onEscClosePopup = function (evt) {
+      if (evt.keyCode === window.successWindow.escButtonCode) {
         adPopup.classList.add('hidden');
+      }
+      document.removeEventListener('keydown', window.onEscClosePopup);
+    };
 
-        closeButton.removeEventListener('click', onClickClosePopup);
-      };
+    var onClickClosePopup = function () {
+      adPopup.classList.add('hidden');
 
-      document.addEventListener('keydown', onEscClosePopup);
-      closeButton.addEventListener('click', onClickClosePopup);
-    }
+      closeButton.removeEventListener('click', onClickClosePopup);
+    };
+
+    document.addEventListener('keydown', onEscClosePopup);
+    closeButton.addEventListener('click', onClickClosePopup);
+  };
+
+  window.announcementPopup = {
+    createAnnouncementPopup: createAnnouncementPopup,
+    showAnnouncementPopup: showAnnouncementPopup
   };
 })();

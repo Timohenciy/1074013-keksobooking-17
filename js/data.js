@@ -20,18 +20,22 @@
     return xhr;
   };
 
+  var loadData = function (onLoad, onError) {
+    var xhr = createXHRObject(onLoad, onError);
+
+    xhr.open('GET', GET_ADDRESS);
+    xhr.send();
+  };
+
+  var saveData = function (data, onLoad, onError) {
+    var xhr = createXHRObject(onLoad, onError);
+
+    xhr.open('POST', POST_ADDRESS);
+    xhr.send(data);
+  };
+
   window.data = {
-    load: function (onLoad, onError) {
-      var xhr = createXHRObject(onLoad, onError);
-
-      xhr.open('GET', GET_ADDRESS);
-      xhr.send();
-    },
-    save: function (data, onLoad, onError) {
-      var xhr = createXHRObject(onLoad, onError);
-
-      xhr.open('POST', POST_ADDRESS);
-      xhr.send(data);
-    }
+    load: loadData,
+    save: saveData
   };
 })();

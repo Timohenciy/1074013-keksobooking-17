@@ -76,7 +76,7 @@
     var dataToSend = new FormData(form);
     dataToSend.append('address', address.value);
 
-    window.data.save(dataToSend, window.setInactiveStateOfPage, window.errorPopup.onLoadErrorShowPopup);
+    window.data.save(dataToSend, window.main.setInactiveStateOfPage, window.errorPopup.onLoadErrorShowPopup);
   };
 
   timeIn.addEventListener('change', onTimeChange);
@@ -85,7 +85,7 @@
   houseType.addEventListener('change', onTypeChange);
 
   submitButton.addEventListener('click', onClickCheckValidity);
-  resetButton.addEventListener('click', window.setInactiveStateOfPage);
+  resetButton.addEventListener('click', window.main.setInactiveStateOfPage);
 
   form.addEventListener('submit', onSubmitSendFormData);
 })();
